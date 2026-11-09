@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "VanoShelf for Overleaf",
+  "version": "1.0.0",
+  "description": "Organize your Overleaf projects by field, hide projects from your list and blur titles in discreet mode.",
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "VanoShelf",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "toggle-discreet": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Toggle discreet mode"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.overleaf.com/*",
+        "https://overleaf.com/*"
+      ],
+      "js": [
+        "defaults.js",
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

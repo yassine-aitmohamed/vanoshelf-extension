@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VanoShelf</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon32.png" alt="" width="20" height="20">
+    <h1>VanoShelf</h1>
+    <button type="button" id="open" class="link">Open projects</button>
+  </header>
+
+  <section>
+    <label class="switch"><span>Discreet mode <kbd id="shortcut">Alt+Shift+D</kbd></span><input type="checkbox" id="discreet"><span class="track"></span></label>
+    <label class="switch nod"><span>Show hidden projects</span><input type="checkbox" id="showHidden"><span class="track"></span></label>
+    <label class="switch"><span>Dark theme</span><input type="checkbox" id="dark"><span class="track"></span></label>
+  </section>
+
+  <section class="nod" id="hiddenBox">
+    <div class="row-head"><h2>Hidden projects</h2><button type="button" id="unhideAll" class="link">Show all</button></div>
+    <ul id="hiddenList" class="list"></ul>
+  </section>
+
+  <section>
+    <h2>Fields</h2>
+    <ul id="cats" class="list"></ul>
+    <form id="addForm" class="add">
+      <input id="newCat" type="text" placeholder="New category" maxlength="28" aria-label="New category">
+      <button type="submit">Add</button>
+    </form>
+    <p class="hint">Click a dot to change its colour. Rename a field by editing its name.</p>
+  </section>
+
+  <section>
+    <h2>Backup</h2>
+    <div class="actions">
+      <button type="button" id="export">Export</button>
+      <label class="btn">Import<input type="file" id="import" accept="application/json,.json" hidden></label>
+    </div>
+    <p class="hint" id="msg"></p>
+  </section>
+
+  <script src="defaults.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
