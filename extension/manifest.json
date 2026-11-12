@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "VanoShelf for Overleaf",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Organize your Overleaf projects by field, hide projects from your list and blur titles in discreet mode.",
   "permissions": [
     "storage"

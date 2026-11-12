@@ -93,6 +93,16 @@ document.addEventListener('click', (e) => {
   document.querySelectorAll('.del.confirm').forEach((b) => { b.classList.remove('confirm'); b.textContent = 'Delete'; });
 });
 
+document.addEventListener('input', (e) => {
+  const input = e.target.closest('[data-name]');
+  if (!input) return;
+  const c = S.cats.find((x) => x.id === input.dataset.name);
+  const name = input.value.trim();
+  if (!c || !name || name === c.name) return;
+  c.name = name;
+  save();
+});
+
 document.addEventListener('change', (e) => {
   const input = e.target.closest('[data-name]');
   if (!input) return;

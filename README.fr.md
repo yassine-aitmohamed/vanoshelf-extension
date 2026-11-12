@@ -56,7 +56,7 @@ Le bloc VanoShelf apparaît dans la colonne de gauche, sous les étiquettes d'Ov
 | Filtrer par domaine | Cliquez sur un domaine dans le bloc VanoShelf |
 | Donner un domaine à un projet | Cliquez sur sa pastille (ou **+ field**) et choisissez |
 | Nouveau domaine | Tapez un nom sous la liste et cliquez sur **Add** |
-| Renommer, recolorer ou supprimer | Fenêtre de l'icône |
+| Renommer, recolorer ou supprimer | **Edit** à côté de « Fields » dans le panneau (ou fenêtre de l'icône) |
 | Masquer ou afficher un projet | Bouton œil en fin de ligne |
 | Regrouper par domaine | **By field** au-dessus de la liste |
 | Mode discret | `Alt+Shift+D`, ou l'interrupteur du bloc ou de la fenêtre |

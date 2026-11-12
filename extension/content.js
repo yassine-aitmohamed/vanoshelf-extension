@@ -19,6 +19,8 @@
   let panelSig = '';
   let toolbarSig = '';
   let pop = null;
+  let editing = false;
+  let confirmDel = '';
 
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const catOf = (id) => S.cats.find((c) => c.id === id);
@@ -341,7 +343,7 @@
         <button type="button" class="vs-min" data-act="min" title="Collapse" aria-label="Collapse">–</button>
       </div>
       <div class="vs-body">
-        <div class="vs-lbl">Fields</div>
+        <div class="vs-lbl"><span>Fields</span><button type="button" class="vs-edit vs-nod" data-act="edit" aria-pressed="false">Edit</button></div>
         <div class="vs-cats"></div>
         <form class="vs-add vs-nod">
           <input type="text" placeholder="New category" maxlength="28" aria-label="New category">
@@ -360,7 +362,28 @@
       input.value = '';
       save();
     });
-    el.addEventListener('keydown', (e) => e.stopPropagation());
+    el.addEventListener('change', (e) => {
+      const input = e.target.closest('.vs-ename');
+      if (!input) return;
+      const c = catOf(input.dataset.c);
+      const name = input.value.trim();
+      if (!c) return;
+      if (!name || name === c.name) { input.value = c.name; return; }
+      c.name = name;
+      save();
+    });
+    el.addEventListener('keydown', (e) => {
+      e.stopPropagation();
+      const input = e.target.closest('.vs-ename');
+      if (!input) return;
+      if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+      if (e.key === 'Escape') {
+        const c = catOf(input.dataset.c);
+        if (c) input.value = c.name;
+        input.blur();
+      }
+    });
+    el.addEventListener('focusout', () => schedule());
     return el;
   }
 
@@ -395,15 +418,27 @@
     const items = [{ id: 'all', name: 'All projects', color: '' }]
       .concat(S.cats.map((c) => ({ id: c.id, name: c.name, color: col(c) })))
       .concat([{ id: 'none', name: 'Uncategorized', color: 'var(--vs-soft)' }]);
-    const sig = JSON.stringify([items, counts, filter]);
-    if (sig !== panelSig) {
+    const sig = JSON.stringify([items, counts, filter, editing, confirmDel]);
+    const typing = panel.querySelector('.vs-ename:focus');
+    if (sig !== panelSig && !typing) {
       panelSig = sig;
-      panel.querySelector('.vs-cats').innerHTML = items.map((it) => `
+      panel.querySelector('.vs-cats').innerHTML = editing
+        ? (S.cats.map((c) => `
+          <div class="vs-cat vs-erow">
+            <button type="button" class="vs-sw vs-swb" data-act="color" data-c="${esc(c.id)}" style="background:${esc(col(c))}" title="Change colour" aria-label="Change colour of ${esc(c.name)}"></button>
+            <input type="text" class="vs-ename" data-c="${esc(c.id)}" value="${esc(c.name)}" maxlength="28" aria-label="Field name">
+            <button type="button" class="vs-del${confirmDel === c.id ? ' vs-confirm' : ''}" data-act="del" data-c="${esc(c.id)}" title="Delete field">${confirmDel === c.id ? 'Delete?' : '&times;'}</button>
+          </div>`).join('') || '<div class="vs-empty-cats">No fields yet.</div>')
+        : items.map((it) => `
         <button type="button" class="vs-cat${filter === it.id ? ' vs-on' : ''}" data-act="filter" data-f="${esc(it.id)}">
           <span class="vs-sw${it.id === 'all' ? ' vs-sw-all' : ''}" style="background:${it.id === 'all' ? 'transparent' : esc(it.color)}"></span>
           <span class="vs-cname">${esc(it.name)}</span><span class="vs-n">${counts[it.id] || 0}</span>
         </button>`).join('');
     }
+    const eb = panel.querySelector('.vs-edit');
+    eb.textContent = editing ? 'Done' : 'Edit';
+    eb.setAttribute('aria-pressed', String(editing));
+    setCls(panel, 'vs-editing', editing);
     setCls(panel, 'vs-collapsed', !!S.collapsed);
     panel.querySelectorAll('[data-act="toggle"]').forEach((b) => {
       const v = String(!!S[b.dataset.k]);
@@ -517,9 +552,30 @@
     if (!inUi(e.target)) { closePop(); return; }
     e.stopPropagation();
     const b = e.target.closest('[data-act]');
+    const act = b ? b.dataset.act : '';
+    if (confirmDel && act !== 'del') { confirmDel = ''; panelSig = ''; schedule(); }
     if (!b) return;
     e.preventDefault();
-    const act = b.dataset.act;
+    if (act === 'edit') { editing = !editing; confirmDel = ''; panelSig = ''; run(); return; }
+    if (act === 'color') {
+      const c = catOf(b.dataset.c);
+      if (!c) return;
+      const i = VS_PALETTE.indexOf(c.color);
+      c.color = VS_PALETTE[(i + 1) % VS_PALETTE.length];
+      save();
+      return;
+    }
+    if (act === 'del') {
+      const id = b.dataset.c;
+      if (confirmDel !== id) { confirmDel = id; panelSig = ''; run(); return; }
+      confirmDel = '';
+      S.cats = S.cats.filter((c) => c.id !== id);
+      Object.keys(S.assign).forEach((p) => { if (S.assign[p] === id) delete S.assign[p]; });
+      delete S.groupsClosed[id];
+      if (filter === id) filter = 'all';
+      save();
+      return;
+    }
     if (act === 'filter') { filter = b.dataset.f; panelSig = ''; groupsSig = ''; run(); return; }
     if (act === 'view') { S.view = b.dataset.view; save(); return; }
     if (act === 'min') { S.collapsed = !S.collapsed; save(); return; }

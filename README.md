@@ -56,7 +56,7 @@ The VanoShelf panel appears in the left column, under Overleaf's tags. Pin the e
 | Filter by field | Click a field in the VanoShelf panel |
 | Give a project a field | Click its chip (or **+ field**) and pick one |
 | New field | Type a name under the field list and press **Add** |
-| Rename, recolour or delete a field | Toolbar popup |
+| Rename, recolour or delete a field | **Edit** next to "Fields" in the panel (or the toolbar popup) |
 | Hide or show a project | Eye button at the end of the row |
 | Group by field | **By field** above the list |
 | Discreet mode | `Alt+Shift+D`, or the switch in the panel or popup |
