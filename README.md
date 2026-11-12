@@ -17,7 +17,7 @@ Overleaf shows every project in one long list. Papers, thesis chapters, lecture 
 - **By field view.** Group the list into collapsible sections, one per field.
 - **Hide projects.** The eye button removes a project from the list. Hidden projects can be shown again, hatched, or brought back from the toolbar popup.
 - **Discreet mode.** Press `Alt+Shift+D`: hidden projects disappear completely and every title is blurred until your cursor is on it. Useful in a shared office, a meeting or on a projector.
-- **Dark theme.** The whole projects page turns dark, with colours chosen for long sessions. It can be turned off in the popup.
+- **Day and night modes.** The whole projects page turns dark, with colours chosen for long sessions. The sun/moon button in the panel header switches between night and day.
 - **Backup.** Export your fields and hidden projects to a file, and import them on another computer.
 - **Private.** Everything stays in your browser. VanoShelf sends nothing to Overleaf or anywhere else, and never changes your projects. No account, no tracking, no server.
 - **Free and open source** (MIT).

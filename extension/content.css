@@ -286,6 +286,15 @@ html body .vs-gitem.vs-is-hidden a.vs-title.vs-title {
   cursor: pointer;
   padding: 0;
 }
+.vs-hbtns {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.vs-mode {
+  display: inline-grid;
+  place-items: center;
+}
 .vs-min:hover {
   background: color-mix(in srgb, var(--vs-ink) 12%, transparent);
 }

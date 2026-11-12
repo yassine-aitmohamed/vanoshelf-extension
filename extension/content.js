@@ -5,6 +5,8 @@
   const ID_RE = /^\/project\/([0-9a-f]{24})\/?$/;
   const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16M4 12h16M4 19h10"/></svg>';
   const EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  const MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
   const EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.9 0 3.6-.6 5-1.4M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
 
   let S = vsLoad();
@@ -340,7 +342,10 @@
     el.innerHTML = `
       <div class="vs-head">
         <strong>${ICON}VanoShelf <span class="vs-ver">v${esc(chrome.runtime.getManifest().version)}</span></strong>
-        <button type="button" class="vs-min" data-act="min" title="Collapse" aria-label="Collapse">–</button>
+        <span class="vs-hbtns">
+          <button type="button" class="vs-min vs-mode" data-act="mode"></button>
+          <button type="button" class="vs-min" data-act="min" title="Collapse" aria-label="Collapse">–</button>
+        </span>
       </div>
       <div class="vs-body">
         <div class="vs-lbl"><span>Fields</span><button type="button" class="vs-edit vs-nod" data-act="edit" aria-pressed="false">Edit</button></div>
@@ -434,6 +439,13 @@
           <span class="vs-sw${it.id === 'all' ? ' vs-sw-all' : ''}" style="background:${it.id === 'all' ? 'transparent' : esc(it.color)}"></span>
           <span class="vs-cname">${esc(it.name)}</span><span class="vs-n">${counts[it.id] || 0}</span>
         </button>`).join('');
+    }
+    const mb = panel.querySelector('.vs-mode');
+    const ml = S.dark ? 'Switch to day mode' : 'Switch to night mode';
+    if (mb.title !== ml) {
+      mb.title = ml;
+      mb.setAttribute('aria-label', ml);
+      mb.innerHTML = S.dark ? SUN : MOON;
     }
     const eb = panel.querySelector('.vs-edit');
     eb.textContent = editing ? 'Done' : 'Edit';
@@ -578,6 +590,7 @@
     }
     if (act === 'filter') { filter = b.dataset.f; panelSig = ''; groupsSig = ''; run(); return; }
     if (act === 'view') { S.view = b.dataset.view; save(); return; }
+    if (act === 'mode') { S.dark = !S.dark; save(); return; }
     if (act === 'min') { S.collapsed = !S.collapsed; save(); return; }
     if (act === 'toggle') { S[b.dataset.k] = !S[b.dataset.k]; save(); return; }
     if (act === 'chip') { openPop(b, b.dataset.id); return; }

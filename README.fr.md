@@ -17,7 +17,7 @@ Overleaf affiche tous les projets dans une seule longue liste. Articles, chapitr
 - **Vue par domaine.** La liste se regroupe en sections repliables, une par domaine.
 - **Masquer des projets.** Le bouton œil retire un projet de la liste. Les projets masqués peuvent être réaffichés en hachuré, ou restaurés depuis la fenêtre de l'icône.
 - **Mode discret.** Appuyez sur `Alt+Shift+D` : les projets masqués disparaissent complètement et tous les titres sont floutés tant que la souris n'est pas dessus. Pratique dans un bureau partagé, en réunion ou au projecteur.
-- **Thème sombre.** Toute la page des projets passe en sombre. Il se désactive dans la fenêtre de l'icône.
+- **Modes jour et nuit.** Toute la page des projets passe en sombre. Le bouton soleil/lune en haut du panneau bascule entre nuit et jour.
 - **Sauvegarde.** Exportez vos domaines et projets masqués dans un fichier, et importez-les sur un autre ordinateur.
 - **Privé.** Tout reste dans votre navigateur. VanoShelf n'envoie rien à Overleaf ni ailleurs, et ne modifie jamais vos projets. Pas de compte, pas de suivi, pas de serveur.
 - **Libre et gratuit** (MIT).
